@@ -20,7 +20,12 @@ const userSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 50
   },
-  isAdmin: Boolean
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
-const User = mongoose.modell("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+export { User };

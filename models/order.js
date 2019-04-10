@@ -27,6 +27,10 @@ const orderSchema = new mongoose.Schema({
   quantity: {
     type: Number,
     required: true
+  },
+  status: {
+    type: String,
+    default: "Pending"
   }
 });
 
