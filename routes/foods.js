@@ -1,5 +1,5 @@
 import express from "express";
-import { Food } from "../models/food";
+import { Food, validateFood as validate } from "../models/food";
 
 const router = express.Router();
 
@@ -17,6 +17,8 @@ router.get("/", async (req, res) => {
 
 //route to create a food
 router.post("/", async (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
   const food = new Food({
     name: req.body.name,
     categoryId: req.body.categoryId,
