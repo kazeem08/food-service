@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Joi from "joi";
 
 const categorySchema = new mongoose.Schema({
   name: {
@@ -9,6 +10,6 @@ const categorySchema = new mongoose.Schema({
   }
 });
 
-const Category = mongoose.modell("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 export { categorySchema };
