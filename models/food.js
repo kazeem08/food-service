@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
+import Joi from "joi";
 import { categorySchema } from "./category";
 
 const foodSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 5,
+    minlength: 4,
     maxlength: 200
   },
   category: {
@@ -26,4 +27,24 @@ const foodSchema = new mongoose.Schema({
   }
 });
 
-const Food = mongoose.modell("Food", foodSchema);
+const Food = mongoose.model("Food", foodSchema);
+
+function validateFood(food) {
+  const schema = {
+    name: Joi.string()
+      .min(4)
+      .max(200)
+      .required(),
+    categoryId: Joi.string().required(),
+    description: Joi.string()
+      .min(10)
+      .max(200),
+    price: Joi.number()
+      .min(10)
+      .max(100)
+      .required()
+  };
+  return Joi.validate(food, schema);
+}
+
+export { Food, validateFood };
