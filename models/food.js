@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Joi from "joi";
 import { categorySchema } from "./category";
 
 const foodSchema = new mongoose.Schema({
@@ -38,9 +39,10 @@ function validateFood(food) {
     description: Joi.string()
       .min(10)
       .max(200),
-    price: Joi.Number()
+    price: Joi.number()
       .min(10)
       .max(100)
+      .required()
   };
   return Joi.validate(food, schema);
 }
