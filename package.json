@@ -9,6 +9,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.4.3",
     "jest": "^24.7.1"
+  },
+  "dependencies": {
+    "mongoose": "^5.5.0",
+    "nodemon": "^1.18.11",
+    "regenerator-runtime": "^0.13.2"
   }
 }
