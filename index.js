@@ -2,12 +2,14 @@ import mongoose from "mongoose";
 import express from "express";
 import { router as users } from "./routes/users";
 import { router as foods } from "./routes/foods";
+import { router as customers } from "./routes/customers";
 
 const app = express();
 
 app.use(express.json());
 app.use("/api/users", users);
 app.use("/api/foods", foods);
+app.use("/api/customers", customers);
 
 mongoose
   .connect("mongodb://localhost/food-service", {
