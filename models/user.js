@@ -22,3 +22,5 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: Boolean
 });
+
+const User = mongoose.modell("User", userSchema);
