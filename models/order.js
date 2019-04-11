@@ -47,7 +47,6 @@ function validateOrder(order) {
       .min(1)
       .required()
   };
-
   return Joi.validate(order, schema);
 }
 
