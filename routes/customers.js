@@ -24,7 +24,6 @@ router.post("/", async (req, res) => {
   await customer.save();
 
   res.send(_.pick(customer, ["_id", "name", "email", "phone"]));
-  // res.send(customer);
 });
 
 export { router };
