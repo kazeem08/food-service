@@ -3,15 +3,16 @@ import { Order, validateOrder as validate } from "../models/order";
 import { Food } from "../models/food";
 import { Customer } from "../models/customer";
 import { auth } from "../middleware/auth";
+import { admin } from "../middleware/admin";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", [auth, admin], async (req, res) => {
   const order = await Order.find().sort("name");
   res.send(order);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const order = await Order.findById(req.params.id);
   res.send(order);
 });
@@ -47,7 +48,7 @@ router.post("/", auth, async (req, res) => {
   res.send(order);
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", [auth, admin], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
