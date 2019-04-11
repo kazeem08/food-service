@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Joi from "joi";
+import jwt from "jsonwebtoken";
+import config from "config";
 
 const customerSchema = new mongoose.Schema({
   name: {
@@ -28,6 +30,11 @@ const customerSchema = new mongoose.Schema({
     max: 20
   }
 });
+
+customerSchema.methods.generateAuthToken = function() {
+  const token = jwt.sign({ _id: this.id }, config.get("jwtPrivateKey"));
+  return token;
+};
 
 const Customer = mongoose.model("Customer", customerSchema);
 
