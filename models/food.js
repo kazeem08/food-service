@@ -44,6 +44,7 @@ function validateFood(food) {
       .max(100)
       .required()
   };
+
   return Joi.validate(food, schema);
 }
 
