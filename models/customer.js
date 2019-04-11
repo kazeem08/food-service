@@ -5,7 +5,7 @@ const customerSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 6,
+    minlength: 3,
     maxlength: 80
   },
   email: {
@@ -19,7 +19,7 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 6,
-    maxlength: 50
+    maxlength: 200
   },
   phone: {
     type: String,
@@ -34,7 +34,7 @@ const Customer = mongoose.model("Customer", customerSchema);
 function validateCustomer(customer) {
   const schema = {
     name: Joi.string()
-      .min(6)
+      .min(3)
       .max(80)
       .required(),
     email: Joi.string()
@@ -42,7 +42,7 @@ function validateCustomer(customer) {
       .max(100),
     password: Joi.string()
       .min(6)
-      .max(50),
+      .max(200),
     phone: Joi.string()
       .min(5)
       .max(20)
