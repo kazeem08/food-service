@@ -32,8 +32,6 @@ router.post("/", async (req, res) => {
       price: food.price,
       quantity: foodItem.quantity
     });
-
-    console.log(foodCollection);
   }
 
   const order = new Order({
