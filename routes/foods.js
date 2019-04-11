@@ -1,5 +1,6 @@
 import express from "express";
 import { Food, validateFood as validate } from "../models/food";
+import { Category } from "../models/category";
 
 const router = express.Router();
 
@@ -20,9 +21,15 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
+  const category = await Category.findById(req.body.categoryId);
+  if (!category) return res.status(400).send("Invalid Category");
+
   const food = new Food({
     name: req.body.name,
-    categoryId: req.body.categoryId,
+    category: {
+      _id: category._id,
+      name: category.name
+    },
     description: req.body.description,
     price: req.body.price
   });

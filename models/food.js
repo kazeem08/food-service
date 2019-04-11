@@ -48,4 +48,4 @@ function validateFood(food) {
   return Joi.validate(food, schema);
 }
 
-export { Food, validateFood };
+export { Food, validateFood, foodSchema };
