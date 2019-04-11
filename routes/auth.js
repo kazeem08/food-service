@@ -15,3 +15,18 @@ router.post("/", async (req, res) => {
   const password = bcrypt.compare(req.body.password, customer.password);
   if (!password) return res.status(400).send("Invalid email/password");
 });
+
+function validate(req) {
+  const schema = {
+    email: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+      .email(),
+    password: Joi.string()
+      .min(5)
+      .max(255)
+      .required()
+  };
+  return Joi.validate(req, schema);
+}
