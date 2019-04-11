@@ -4,6 +4,7 @@ import { router as users } from "./routes/users";
 import { router as foods } from "./routes/foods";
 import { router as customers } from "./routes/customers";
 import { router as orders } from "./routes/orders";
+import { router as categories } from "./routes/categories";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use("/api/users", users);
 app.use("/api/foods", foods);
 app.use("/api/customers", customers);
 app.use("/api/orders", orders);
+app.use("/api/categories", categories);
 
 mongoose
   .connect("mongodb://localhost/food-service", {

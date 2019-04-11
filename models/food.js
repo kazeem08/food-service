@@ -44,7 +44,8 @@ function validateFood(food) {
       .max(100)
       .required()
   };
+
   return Joi.validate(food, schema);
 }
 
-export { Food, validateFood };
+export { Food, validateFood, foodSchema };

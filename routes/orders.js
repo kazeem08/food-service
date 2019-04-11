@@ -1,5 +1,7 @@
 import express from "express";
 import { Order, validateOrder as validate } from "../models/order";
+import { Food } from "../models/food";
+import { Customer } from "../models/customer";
 
 const router = express.Router();
 
@@ -17,19 +19,33 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const order = {
+  const customer = await Customer.findById(req.body.customerId);
+
+  const foodCollection = [];
+
+  for (let foodItem of req.body.food) {
+    const food = await Food.findById(foodItem.id);
+    console.log(food.price);
+    foodCollection.push({
+      _id: food._id,
+      name: food.name,
+      price: food.price,
+      quantity: foodItem.quantity
+    });
+
+    console.log(foodCollection);
+  }
+
+  const order = new Order({
     customer: {
       _id: customer._id,
       name: customer.name,
       phone: customer.phone
     },
-    food: {
-      _id: food._id
-    },
-    quantity: req.params.quantity
-  };
+    food: foodCollection
+  });
 
-  order.save();
+  await order.save();
   res.send(order);
 });
 
@@ -37,18 +53,33 @@ router.put("/:id", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  Order.findByIdAndUpdate(req.params.id, {
-    customer: {
-      _id: customer._id,
-      name: customer.name,
-      phone: customer.phone
+  const customer = await Customer.findById(req.body.customerId);
+  if (!customer) return res.status(400).send("Customer does not exist");
+
+  const foodCollection = [];
+
+  for (let foodItem of req.body.food) {
+    const food = await Food.findById(foodItem.id);
+    foodCollection.push({
+      _id: food._id,
+      name: food.name,
+      quantity: foodItem.quantity
+    });
+  }
+
+  const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    {
+      customer: {
+        _id: customer._id,
+        name: customer.name,
+        phone: customer.phone
+      },
+      food: foodCollection,
+      status: req.body.status
     },
-    food: {
-      _id: food._id
-    },
-    quantity: req.params.quantity,
-    status: req.params.status
-  });
+    { new: true }
+  );
 
   res.send(order);
 });

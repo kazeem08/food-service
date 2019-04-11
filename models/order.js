@@ -1,12 +1,31 @@
 import mongoose from "mongoose";
 import Joi from "joi";
 
+const foodSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 4,
+    maxlength: 200
+  },
+  price: {
+    type: Number,
+    required: true,
+    min: 10
+  },
+  quantity: {
+    type: Number,
+    required: true,
+    min: 1
+  }
+});
+
 const orderSchema = new mongoose.Schema({
   customer: {
     type: new mongoose.Schema({
       name: { type: String, required: true, minlength: 6, maxlength: 80 },
       phone: {
-        type: Number,
+        type: String,
         required: true,
         min: 5,
         max: 20
@@ -14,18 +33,9 @@ const orderSchema = new mongoose.Schema({
     })
   },
   food: {
-    type: new mongoose.Schema({
-      name: {
-        type: String,
-        required: true
-      }
-    })
+    type: [foodSchema]
   },
-  quantity: {
-    type: Number,
-    required: true,
-    min: 1
-  },
+
   status: {
     type: String,
     default: "Pending"
@@ -42,10 +52,8 @@ const Order = mongoose.model("Order", orderSchema);
 function validateOrder(order) {
   const schema = {
     customerId: Joi.string().required(),
-    foodId: Joi.string().required(),
-    quantity: Joi.number()
-      .min(1)
-      .required()
+    food: Joi.array().required(),
+    status: Joi.string()
   };
   return Joi.validate(order, schema);
 }

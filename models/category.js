@@ -12,4 +12,15 @@ const categorySchema = new mongoose.Schema({
 
 const Category = mongoose.model("Category", categorySchema);
 
-export { categorySchema };
+function validateCategory(category) {
+  const schema = {
+    name: Joi.string()
+      .min(5)
+      .max(50)
+      .required()
+  };
+
+  return Joi.validate(category, schema);
+}
+
+export { Category, categorySchema, validateCategory };
