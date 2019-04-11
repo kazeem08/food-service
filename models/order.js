@@ -8,6 +8,11 @@ const foodSchema = new mongoose.Schema({
     minlength: 4,
     maxlength: 200
   },
+  price: {
+    type: Number,
+    required: true,
+    min: 10
+  },
   quantity: {
     type: Number,
     required: true,

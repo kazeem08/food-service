@@ -25,11 +25,15 @@ router.post("/", async (req, res) => {
 
   for (let foodItem of req.body.food) {
     const food = await Food.findById(foodItem.id);
+    console.log(food.price);
     foodCollection.push({
       _id: food._id,
       name: food.name,
+      price: food.price,
       quantity: foodItem.quantity
     });
+
+    console.log(foodCollection);
   }
 
   const order = new Order({
@@ -38,8 +42,7 @@ router.post("/", async (req, res) => {
       name: customer.name,
       phone: customer.phone
     },
-    food: foodCollection,
-    quantity: req.body.quantity
+    food: foodCollection
   });
 
   await order.save();
@@ -51,6 +54,7 @@ router.put("/:id", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const customer = await Customer.findById(req.body.customerId);
+  if (!customer) return res.status(400).send("Customer does not exist");
 
   const foodCollection = [];
 
