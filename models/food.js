@@ -35,7 +35,7 @@ function validateFood(food) {
       .min(4)
       .max(200)
       .required(),
-    categoryId: Joi.string().required(),
+    categoryId: Joi.objectId().required(),
     description: Joi.string()
       .min(10)
       .max(200),
