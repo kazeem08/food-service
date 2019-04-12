@@ -1,6 +1,5 @@
 import { Category, validateCategory as validate } from "../models/category";
 import _ from "lodash";
-import bcrypt from "bcrypt";
 
 const routeController = {};
 

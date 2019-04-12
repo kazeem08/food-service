@@ -6,7 +6,7 @@ const foodSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    minlength: 4,
+    minlength: 2,
     maxlength: 200
   },
   category: {
@@ -32,7 +32,7 @@ const Food = mongoose.model("Food", foodSchema);
 function validateFood(food) {
   const schema = {
     name: Joi.string()
-      .min(4)
+      .min(2)
       .max(200)
       .required(),
     categoryId: Joi.objectId().required(),
