@@ -35,7 +35,7 @@ function validateFood(food) {
       .min(4)
       .max(200)
       .required(),
-    categoryId: Joi.string().required(),
+    categoryId: Joi.objectId().required(),
     description: Joi.string()
       .min(10)
       .max(200),
@@ -44,7 +44,8 @@ function validateFood(food) {
       .max(100)
       .required()
   };
+
   return Joi.validate(food, schema);
 }
 
-export { Food, validateFood };
+export { Food, validateFood, foodSchema };
