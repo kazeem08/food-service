@@ -2,19 +2,19 @@ import { User, validateUser as validate } from "../models/user";
 import _ from "lodash";
 import bcrypt from "bcrypt";
 
-const controller = {};
+const routeController = {};
 
-controller.get = async (req, res) => {
+routeController.get = async (req, res) => {
   const users = await User.find();
   res.send(users);
 };
 
-controller.getbyId = async (req, res) => {
+routeController.getbyId = async (req, res) => {
   const user = await User.findById(req.params.id);
   res.send(user);
 };
 
-controller.post = async (req, res) => {
+routeController.post = async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -31,4 +31,4 @@ controller.post = async (req, res) => {
   res.send(_.pick(user, ["name", "email", "phone", "isAdmin"]));
 };
 
-export { controller };
+export { routeController as controller };

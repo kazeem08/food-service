@@ -1,12 +1,12 @@
 import express from "express";
-import { controller } from "../controllers/userController";
+import { controller as routeController } from "../controllers/userController";
 
 const router = express.Router();
 
-router.get("/", controller.get);
+router.get("/", routeController.get);
 
-router.get("/:id", controller.getbyId);
+router.get("/:id", routeController.getbyId);
 
-router.post("/", controller.post);
+router.post("/", routeController.post);
 
 export { router };

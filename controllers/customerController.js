@@ -2,14 +2,14 @@ import { Customer, validateCustomer as validate } from "../models/customer";
 import _ from "lodash";
 import bcrypt from "bcrypt";
 
-const customerController = {};
+const routeController = {};
 
-customerController.get = async (req, res) => {
+routeController.get = async (req, res) => {
   const customers = await Customer.find().sort("name");
   res.send(customers);
 };
 
-customerController.post = async (req, res) => {
+routeController.post = async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -28,4 +28,4 @@ customerController.post = async (req, res) => {
   res.send(_.pick(customer, ["_id", "name", "email", "phone"]));
 };
 
-export { customerController };
+export { routeController };
