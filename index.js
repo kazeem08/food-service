@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import express from "express";
+import Joi from "joi";
+import value from "joi-objectid";
+Joi.objectId = value(Joi);
 import { router as users } from "./routes/users";
 import { router as foods } from "./routes/foods";
 import { router as customers } from "./routes/customers";
