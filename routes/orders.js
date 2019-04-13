@@ -8,7 +8,11 @@ const router = express.Router();
 
 router.get("/", [auth, admin], routeController.get);
 
-router.get("/:id", validateObjectId, auth, routeController.getById);
+router.get("/user/:id", [auth, admin], routeController.getOrders);
+
+router.get("/myorders", auth, routeController.getMyOrder);
+
+router.get("/:id", validateObjectId, [auth, admin], routeController.getById);
 
 router.post("/", auth, routeController.post);
 
