@@ -9,9 +9,19 @@ routeController.get = async (req, res) => {
   res.send(order);
 };
 
+routeController.getMyOrder = async (req, res) => {
+  const orders = await Order.find({ "customer._id": req.user._id });
+  res.send(orders);
+};
+
 routeController.getById = async (req, res) => {
   const order = await Order.findById(req.params.id);
   res.send(order);
+};
+
+routeController.getOrders = async (req, res) => {
+  const orders = await Order.find({ "customer._id": req.params.id });
+  res.send(orders);
 };
 
 routeController.post = async (req, res) => {

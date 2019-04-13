@@ -9,6 +9,11 @@ routeController.get = async (req, res) => {
   res.send(users);
 };
 
+routeController.getMe = async (req, res) => {
+  const user = await User.find({ _id: req.user._id });
+  res.send(user);
+};
+
 routeController.getbyId = async (req, res) => {
   const user = await User.findById(req.params.id);
   res.send(user);
@@ -31,4 +36,4 @@ routeController.post = async (req, res) => {
   res.send(_.pick(user, ["name", "email", "phone", "isAdmin"]));
 };
 
-export { routeController as controller };
+export { routeController };
