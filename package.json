@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "export NODE_ENV=test && jest --watchAll",
+		"test": "export NODE_ENV=test && jest --watchAll --coverage",
 		"start": "nodemon --exec babel-node index.js"
 	},
 	"author": "",

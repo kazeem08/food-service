@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../../index';
 import { Category } from '../../models/category';
@@ -24,6 +25,11 @@ describe('/api/category', () => {
 	});
 
 	describe('GET /:id', () => {
+		it('should return 404 if no category is found', async () => {
+			const id = mongoose.Types.ObjectId();
+			const res = await request(app).get('/api/categories/' + id);
+			expect(res.status).toBe(404);
+		});
 		it('should return a category if a valid id is passed ', async () => {
 			const category = new Category({
 				name: 'swallow'
@@ -52,7 +58,10 @@ describe('/api/category', () => {
 				.set('x-auth-token', token)
 				.send({ name });
 		};
-		beforeEach(() => {
+		afterEach(async () => {
+			await Category.remove({});
+		});
+		beforeEach(async () => {
 			token = new User().generateAuthToken();
 			name = 'category1';
 		});
