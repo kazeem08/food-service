@@ -8,7 +8,9 @@ const router = express.Router();
 
 router.get("/", routeController.get);
 
-router.post("/", [auth, admin], routeController.post);
+router.get("/:id", validateObjectId, routeController.getById);
+
+router.post("/", auth, routeController.post);
 
 router.put("/:id", validateObjectId, [auth, admin], routeController.put);
 
