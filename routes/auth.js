@@ -1,10 +1,12 @@
-import express from "express";
-import { routeController } from "../controllers/authController";
+import express from 'express';
+import { routeController } from '../controllers/authController';
 
 const router = express.Router();
 
-router.post("/", routeController.post);
+//route for customer login
+router.post('/', routeController.post);
 
-router.post("/staff", routeController.postStaff);
+//route for user login
+router.post('/staff', routeController.postStaff);
 
 export { router };
