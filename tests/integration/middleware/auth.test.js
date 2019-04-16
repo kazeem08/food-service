@@ -4,6 +4,9 @@ import { User } from '../../../models/user';
 import { app } from '../../../index';
 
 describe('auth middleware', () => {
+	afterAll(() => {
+		app.close();
+	});
 	let token;
 
 	const exec = () => {

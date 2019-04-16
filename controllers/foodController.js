@@ -5,16 +5,19 @@ import bcrypt from 'bcrypt';
 
 const routeController = {};
 
+//controller to get food by Id
 routeController.getById = async (req, res) => {
 	const food = await Food.findById(req.params.id);
 	res.send(food);
 };
 
+//controller to Get all foods
 routeController.get = async (req, res) => {
 	const foods = await Food.find().sort('name');
 	res.send(foods);
 };
 
+//controller to create food
 routeController.post = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -36,6 +39,7 @@ routeController.post = async (req, res) => {
 	res.send(food);
 };
 
+//controller to update food
 routeController.put = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -59,6 +63,7 @@ routeController.put = async (req, res) => {
 	res.send(food);
 };
 
+//controller to delete food
 routeController.delete = async (req, res) => {
 	const food = await Food.findByIdAndRemove(req.params.id);
 	if (!food)

@@ -1,10 +1,12 @@
-import express from "express";
-import { routeController } from "../controllers/customerController";
+import express from 'express';
+import { routeController } from '../controllers/customerController';
 
 const router = express.Router();
 
-router.get("/", routeController.get);
+//route for getting all customers
+router.get('/', routeController.get);
 
-router.post("/", routeController.post);
+//route for creating a new customer
+router.post('/', routeController.post);
 
 export { router };

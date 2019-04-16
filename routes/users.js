@@ -1,17 +1,21 @@
-import express from "express";
-import { routeController } from "../controllers/userController";
-import { validateObjectId } from "../middleware/validateObjectId";
-import { auth } from "../middleware/auth";
-import { admin } from "../middleware/admin";
+import express from 'express';
+import { routeController } from '../controllers/userController';
+import { validateObjectId } from '../middleware/validateObjectId';
+import { auth } from '../middleware/auth';
+import { admin } from '../middleware/admin';
 
 const router = express.Router();
 
-router.get("/", [auth, admin], routeController.get);
+//route to get all users
+router.get('/', [auth, admin], routeController.get);
 
-router.get("/me", auth, routeController.getMe);
+//route for user to view his profile
+router.get('/me', auth, routeController.getMe);
 
-router.get("/:id", validateObjectId, [auth, admin], routeController.getbyId);
+//route to uget use by iD
+router.get('/:id', validateObjectId, [auth, admin], routeController.getbyId);
 
-router.post("/", routeController.post);
+//route to create a user
+router.post('/', routeController.post);
 
 export { router };

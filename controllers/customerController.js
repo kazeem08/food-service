@@ -4,11 +4,13 @@ import bcrypt from 'bcrypt';
 
 const routeController = {};
 
+//controller for getting all customers
 routeController.get = async (req, res) => {
 	const customers = await Customer.find().sort('name');
 	res.send(customers);
 };
 
+//controller for creating customer
 routeController.post = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);

@@ -5,6 +5,7 @@ import { Customer } from '../models/customer';
 
 const routeController = {};
 
+//login controller for customers
 routeController.post = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -20,6 +21,7 @@ routeController.post = async (req, res) => {
 	res.header('x-auth-token', token).send('logged in');
 };
 
+//login controller for users
 routeController.postStaff = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -34,6 +36,7 @@ routeController.postStaff = async (req, res) => {
 	res.send(token);
 };
 
+//Joi validation of request body
 function validate(req) {
 	const schema = {
 		email: Joi.string()

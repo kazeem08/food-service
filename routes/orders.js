@@ -1,21 +1,27 @@
-import express from "express";
-import { auth } from "../middleware/auth";
-import { admin } from "../middleware/admin";
-import { routeController } from "../controllers/orderController";
-import { validateObjectId } from "../middleware/validateObjectId";
+import express from 'express';
+import { auth } from '../middleware/auth';
+import { admin } from '../middleware/admin';
+import { routeController } from '../controllers/orderController';
+import { validateObjectId } from '../middleware/validateObjectId';
 
 const router = express.Router();
 
-router.get("/", [auth, admin], routeController.get);
+//route to get all orders
+router.get('/', [auth, admin], routeController.get);
 
-router.get("/user/:id", [auth, admin], routeController.getOrders);
+//route to get all orders of a user
+router.get('/user/:id', [auth, admin], routeController.getOrders);
 
-router.get("/myorders", auth, routeController.getMyOrder);
+//route for a customer to view all his orders
+router.get('/myorders', auth, routeController.getMyOrder);
 
-router.get("/:id", validateObjectId, [auth, admin], routeController.getById);
+//route to get order(s) for a customer
+router.get('/:id', validateObjectId, [auth, admin], routeController.getById);
 
-router.post("/", auth, routeController.post);
+//route to create an order
+router.post('/', auth, routeController.post);
 
-router.put("/:id", validateObjectId, [auth, admin], routeController.put);
+//route to update orddr status
+router.put('/:id', validateObjectId, [auth, admin], routeController.put);
 
 export { router };

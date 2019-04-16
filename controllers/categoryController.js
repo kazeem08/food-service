@@ -3,11 +3,13 @@ import _ from 'lodash';
 
 const routeController = {};
 
+//route for getting all categories
 routeController.get = async (req, res) => {
 	const categories = await Category.find().sort('name');
 	res.send(categories);
 };
 
+//route for getting category by ID
 routeController.getById = async (req, res) => {
 	const category = await Category.findById(req.params.id);
 	if (!category)
@@ -17,6 +19,7 @@ routeController.getById = async (req, res) => {
 	res.send(category);
 };
 
+//route for creating category
 routeController.post = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -29,6 +32,7 @@ routeController.post = async (req, res) => {
 	res.send(category);
 };
 
+//controller for updating category
 routeController.put = async (req, res) => {
 	const { error } = validate(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -47,6 +51,7 @@ routeController.put = async (req, res) => {
 	res.send(category);
 };
 
+//controller for deleting category
 routeController.delete = async (req, res) => {
 	const category = await Category.findByIdAndRemove(req.params.id);
 
