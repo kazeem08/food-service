@@ -1,86 +1,27 @@
-import express from "express";
-import { Order, validateOrder as validate } from "../models/order";
-import { Food } from "../models/food";
-import { Customer } from "../models/customer";
-import { auth } from "../middleware/auth";
-import { admin } from "../middleware/admin";
+import express from 'express';
+import { auth } from '../middleware/auth';
+import { admin } from '../middleware/admin';
+import { routeController } from '../controllers/orderController';
+import { validateObjectId } from '../middleware/validateObjectId';
 
 const router = express.Router();
 
-router.get("/", [auth, admin], async (req, res) => {
-  const order = await Order.find().sort("name");
-  res.send(order);
-});
+//route to get all orders
+router.get('/', [auth, admin], routeController.get);
 
-router.get("/:id", auth, async (req, res) => {
-  const order = await Order.findById(req.params.id);
-  res.send(order);
-});
+//route to get all orders of a user
+router.get('/user/:id', [auth, admin], routeController.getOrders);
 
-router.post("/", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//route for a customer to view all his orders
+router.get('/myorders', auth, routeController.getMyOrder);
 
-  const customer = await Customer.findById(req.body.customerId);
+//route to get order(s) for a customer
+router.get('/:id', validateObjectId, [auth, admin], routeController.getById);
 
-  const foodCollection = [];
+//route to create an order
+router.post('/', auth, routeController.post);
 
-  for (let foodItem of req.body.food) {
-    const food = await Food.findById(foodItem.id);
-    foodCollection.push({
-      _id: food._id,
-      name: food.name,
-      price: food.price,
-      quantity: foodItem.quantity
-    });
-  }
-
-  const order = new Order({
-    customer: {
-      _id: customer._id,
-      name: customer.name,
-      phone: customer.phone
-    },
-    food: foodCollection
-  });
-
-  await order.save();
-  res.send(order);
-});
-
-router.put("/:id", [auth, admin], async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const customer = await Customer.findById(req.body.customerId);
-  if (!customer) return res.status(400).send("Customer does not exist");
-
-  const foodCollection = [];
-
-  for (let foodItem of req.body.food) {
-    const food = await Food.findById(foodItem.id);
-    foodCollection.push({
-      _id: food._id,
-      name: food.name,
-      quantity: foodItem.quantity
-    });
-  }
-
-  const order = await Order.findByIdAndUpdate(
-    req.params.id,
-    {
-      customer: {
-        _id: customer._id,
-        name: customer.name,
-        phone: customer.phone
-      },
-      food: foodCollection,
-      status: req.body.status
-    },
-    { new: true }
-  );
-
-  res.send(order);
-});
+//route to update orddr status
+router.put('/:id', validateObjectId, [auth, admin], routeController.put);
 
 export { router };

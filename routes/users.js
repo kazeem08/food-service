@@ -1,35 +1,21 @@
-import express from "express";
-import _ from "lodash";
-import bcrypt from "bcrypt";
-import { User, validateUser as validate } from "../models/user";
+import express from 'express';
+import { routeController } from '../controllers/userController';
+import { validateObjectId } from '../middleware/validateObjectId';
+import { auth } from '../middleware/auth';
+import { admin } from '../middleware/admin';
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const users = await User.find();
-  res.send(users);
-});
+//route to get all users
+router.get('/', [auth, admin], routeController.get);
 
-router.get("/:id", async (req, res) => {
-  const user = await User.findById(req.params.id);
-  res.send(user);
-});
+//route for user to view his profile
+router.get('/me', auth, routeController.getMe);
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//route to uget use by iD
+router.get('/:id', validateObjectId, [auth, admin], routeController.getbyId);
 
-  const user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already registered");
-
-  user = new User(_.pick(req.body, ["name", "email", "password", "isAdmin"]));
-
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-
-  await user.save();
-
-  res.send(_.pick(user, ["name", "email", "phone", "isAdmin"]));
-});
+//route to create a user
+router.post('/', routeController.post);
 
 export { router };

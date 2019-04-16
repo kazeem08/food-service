@@ -1,53 +1,24 @@
-import express from "express";
-import { Category, validateCategory as validate } from "../models/category";
-import { auth } from "../middleware/auth";
-import { admin } from "../middleware/admin";
+import express from 'express';
+import { auth } from '../middleware/auth';
+import { admin } from '../middleware/admin';
+import { routeController } from '../controllers/categoryController';
+import { validateObjectId } from '../middleware/validateObjectId';
+
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  const categories = await Category.find().sort("name");
-  res.send(categories);
-});
+//route for getting all categories
+router.get('/', routeController.get);
 
-router.post("/", [auth, admin], async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+//route for getting categoy by ID
+router.get('/:id', validateObjectId, routeController.getById);
 
-  const category = new Category({
-    name: req.body.name
-  });
+//route for creating a category
+router.post('/', auth, routeController.post);
 
-  await category.save();
-  res.send(category);
-});
+//route for updating a category
+router.put('/:id', validateObjectId, [auth, admin], routeController.put);
 
-router.put("/:id", [auth, admin], async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const category = await Category.findByIdAndUpdate(
-    req.params.id,
-    { name: req.body.name },
-    { new: true }
-  );
-
-  if (!category)
-    return res
-      .status(404)
-      .send("The category with the given ID was not found.");
-
-  res.send(category);
-});
-
-router.delete("/:id", [auth, admin], async (req, res) => {
-  const category = await Category.findByIdAndRemove(req.params.id);
-
-  if (!category)
-    return res
-      .status(404)
-      .send("The category with the given ID was not found.");
-
-  res.send(category);
-});
+//route for deleting a category
+router.delete('/:id', validateObjectId, [auth, admin], routeController.delete);
 
 export { router };
