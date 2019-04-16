@@ -135,18 +135,18 @@ describe('/api/category', () => {
 			expect(res.status).toBe(401);
 		});
 
-		// it('should return 400 if category is less than 5 characters', async () => {
-		// 	token = '1234';
-		// 	const res = await exec();
+		it('should return 400 if category is less than 5 characters', async () => {
+			token = '1234';
+			const res = await exec();
 
-		// 	expect(res.status).toBe(400);
-		// });
+			expect(res.status).toBe(400);
+		});
 
-		// it('should return 400 if category is more than 50 characters', async () => {
-		// 	name = new Array(52).join('a');
-		// 	const res = await exec();
+		it('should return 400 if category is more than 50 characters', async () => {
+			newName = new Array(52).join('a');
+			const res = await exec();
 
-		// 	expect(res.status).toBe(400);
-		// });
+			expect(res.status).toBe(400);
+		});
 	});
 });
