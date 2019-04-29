@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import 'express-async-errors';
 import config from 'dotenv/config';
 // import config from 'config';
 // dotenv.config();
@@ -13,7 +14,9 @@ jwtKey();
 import { routes } from './startup/routes';
 routes(app);
 
-const port = process.env.PORT || 3000; //Making the port dynamic
+// process.env.jwtPrivateKey;
+
+const port = process.env.PORT; //Making the port dynamic
 
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(port, () => console.log(`listening on port ${port}`));

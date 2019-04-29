@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
-import config from 'config';
+// import config from 'config';
+import dotenv from 'dotenv';
+dotenv.config();
 
 //creating user schema
 const userSchema = new mongoose.Schema({
@@ -30,12 +32,11 @@ const userSchema = new mongoose.Schema({
 	}
 });
 
+const jwtKey = process.env.jwtPrivateKey;
+
 //token generation method
 userSchema.methods.generateAuthToken = function() {
-	const token = jwt.sign(
-		{ _id: this.id, isAdmin: this.isAdmin },
-		config.get('jwtPrivateKey')
-	);
+	const token = jwt.sign({ _id: this.id, isAdmin: this.isAdmin }, jwtKey);
 	return token;
 };
 

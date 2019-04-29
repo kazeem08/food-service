@@ -2,9 +2,10 @@ import mongoose from 'mongoose';
 import config from 'config';
 
 //getting the database from environment variable
-const db = config.get('db');
+let db = process.env.db;
+if (process.env.NODE_ENV === 'test') db = process.env.db_test;
 
-//connecting to database
+// connecting to database
 export default mongoose
 	.connect(db, {
 		useNewUrlParser: true,
