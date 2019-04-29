@@ -10,10 +10,6 @@ describe('/api/category', () => {
 		await Category.remove({});
 	});
 
-	afterAll(() => {
-		app.close();
-	});
-
 	describe('GET', () => {
 		it('should get all food categories', async () => {
 			await Category.collection.insertMany([
@@ -68,6 +64,7 @@ describe('/api/category', () => {
 			token = new User().generateAuthToken();
 			name = 'category1';
 		});
+
 		it('should return 401  if user is not logged in', async () => {
 			token = '';
 			const res = await exec();
@@ -75,7 +72,7 @@ describe('/api/category', () => {
 		});
 
 		it('should return 400 if category is less than 5 characters', async () => {
-			token = '1234';
+			name = '1234';
 			const res = await exec();
 
 			expect(res.status).toBe(400);

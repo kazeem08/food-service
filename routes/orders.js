@@ -7,7 +7,7 @@ import { validateObjectId } from '../middleware/validateObjectId';
 const router = express.Router();
 
 //route to get all orders
-router.get('/', [auth, admin], routeController.get);
+router.get('/', routeController.get);
 
 //route to get all orders of a user
 router.get('/user/:id', [auth, admin], routeController.getOrders);

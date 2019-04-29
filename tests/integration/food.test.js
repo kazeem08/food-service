@@ -2,6 +2,7 @@ import 'babel-polyfill';
 import request from 'supertest';
 import { app } from '../../index';
 import { Food } from '../../models/food';
+import 'express-async-errors';
 
 describe('/api/foods', () => {
 	afterAll(() => {
