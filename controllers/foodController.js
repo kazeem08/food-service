@@ -13,7 +13,9 @@ routeController.getById = async (req, res) => {
 
 //controller to Get all foods
 routeController.get = async (req, res) => {
-	const foods = await Food.find().sort('name');
+	const foods = await Food.find({
+		name: 'Rice'
+	}).sort('name');
 	res.send(foods);
 };
 
