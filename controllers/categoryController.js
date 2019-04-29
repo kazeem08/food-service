@@ -5,7 +5,10 @@ const routeController = {};
 
 //route for getting all categories
 routeController.get = async (req, res) => {
-	const categories = await Category.find().sort('name');
+	const categories = await Category.find().or([
+		{ name: 'Fruits' },
+		{ name: 'category1' }
+	]);
 	res.send(categories);
 };
 
